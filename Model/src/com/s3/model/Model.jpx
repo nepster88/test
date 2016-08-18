@@ -6,10 +6,18 @@
   Name="Model"
   Version="11.1.1.64.93"
   SeparateXMLFiles="true"
-  PackageName="com.s3.model"
-  ExportIntfPackage="">
+  PackageName="com.s3.model">
   <DesignTime>
     <Attr Name="_jprName" Value="../../../../Model.jpr"/>
     <Attr Name="_NamedConnection" Value="s3"/>
   </DesignTime>
+  <Containee
+    Name="entity"
+    PackageName="com.s3.model.entity"
+    ObjectType="JboPackage">
+    <DesignTime>
+      <Attr Name="_EO" Value="true"/>
+      <Attr Name="_AS" Value="true"/>
+    </DesignTime>
+  </Containee>
 </JboProject>
