@@ -35,7 +35,7 @@ REM Add the triggers needed
 REM Add the sample data to the tables
 
 --@@populateFODSchemaTables &&OVERRIDE_EMAIL_ADDRESS &&SMTP_SERVER
-@@Insert_data
+--@@Insert_data --not working
 
 REM And Commit all that
 

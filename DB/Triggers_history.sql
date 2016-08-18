@@ -48,7 +48,7 @@ CREATE OR REPLACE TRIGGER t_courses AFTER
       description,
       is_active,
       created_date,
-      modified_datee
+      modified_date
     )
     VALUES
     (
@@ -57,7 +57,7 @@ CREATE OR REPLACE TRIGGER t_courses AFTER
       :NEW.description,
       :NEW.is_active,
       :NEW.created_date,
-      :NEW.modified_datee
+      :NEW.modified_date
     );
 END;
 /
