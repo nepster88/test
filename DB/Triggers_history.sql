@@ -1,3 +1,4 @@
+
 --Trigger for history table of users
 CREATE OR REPLACE TRIGGER t_users AFTER
 INSERT OR
@@ -15,7 +16,8 @@ INTO history_users
     mobile,
     is_active,
     created_date,
-    modified_date
+    modified_date,
+    DATE_OF_BIRTH
   )
   VALUES
   (
@@ -29,10 +31,11 @@ INTO history_users
     :NEW.mobile,
     :NEW.is_active,
     :NEW.created_date,
-    :NEW.modified_date
+    :NEW.modified_date,
+    :NEW.DATE_OF_BIRTH
   );
 END;
-
+/
 --Trigger for history table of courses
 CREATE OR REPLACE TRIGGER t_courses AFTER
   INSERT OR
@@ -57,7 +60,7 @@ CREATE OR REPLACE TRIGGER t_courses AFTER
       :NEW.modified_datee
     );
 END;
-
+/
 --Trigger for history table of assignments
 CREATE OR REPLACE TRIGGER t_assignments AFTER
   INSERT OR
@@ -84,7 +87,7 @@ CREATE OR REPLACE TRIGGER t_assignments AFTER
       :NEW.modified_date
     );
 END;
-
+/
 --Trigger for history table of std_crs_asg
 CREATE OR REPLACE TRIGGER t_std_crs_asg AFTER
   INSERT OR
@@ -115,7 +118,7 @@ CREATE OR REPLACE TRIGGER t_std_crs_asg AFTER
       :NEW.modified_date
     );
 END;
-
+/
 --Trigger for history table of enrollments
 CREATE OR REPLACE TRIGGER t_enrollments AFTER
   INSERT OR
@@ -142,7 +145,7 @@ CREATE OR REPLACE TRIGGER t_enrollments AFTER
       :NEW.modified_date
     );
 END;
-
+/
 --Trigger for history table of comments
 CREATE OR REPLACE TRIGGER t_comments AFTER
   INSERT OR
@@ -171,7 +174,7 @@ CREATE OR REPLACE TRIGGER t_comments AFTER
       :NEW.modified_date
     );
 END;
-
+/
 --Trigger for history table of sup_crs
 CREATE OR REPLACE TRIGGER t_sup_crs AFTER
   INSERT OR
@@ -194,3 +197,4 @@ CREATE OR REPLACE TRIGGER t_sup_crs AFTER
       :NEW.modified_date
     );
 END;
+/
