@@ -31,10 +31,11 @@ CONNECT &&DEMO_SCHEMA/&&DEMO_SCHEMA_PASSWORD@xe
 REM Add the triggers needed 
 @@createSequenceTriggers
 
+@@Triggers_history
 REM Add the sample data to the tables
 
 --@@populateFODSchemaTables &&OVERRIDE_EMAIL_ADDRESS &&SMTP_SERVER
-
+@@Insert_data
 
 REM And Commit all that
 
