@@ -55,6 +55,8 @@
       <string v="oracle.toplink.workbench.addin/toplinkContentSet"/>
    </list>
    <value n="defaultPackage" v="com.s3.model"/>
+   <value n="jbo.JpxName" v="com.s3.model.Model"/>
+   <value n="JboProject" v="true"/>
    <hash n="oracle.ide.model.TechnologyScopeConfiguration">
       <list n="technologyScope">
          <string v="Java"/>
@@ -62,7 +64,35 @@
          <string v="ADFbc"/>
       </list>
    </hash>
+   <value n="oracle.jbo.AMPackage" v="module"/>
+   <value n="oracle.jbo.EOPackage" v="entity"/>
+   <value n="oracle.jbo.ObjAMSuffix" v="AM"/>
+   <value n="oracle.jbo.ObjEOSuffix" v="EO"/>
+   <value n="oracle.jbo.ObjVOSuffix" v="VO"/>
+   <value n="oracle.jbo.SavedPreferences" v="true"/>
+   <value n="oracle.jbo.VOPackage" v="uiview"/>
    <hash n="oracle.jdeveloper.compiler.OjcConfiguration">
+      <list n="copyRes">
+         <string v=".gif"/>
+         <string v=".jpg"/>
+         <string v=".jpeg"/>
+         <string v=".png"/>
+         <string v=".properties"/>
+         <string v=".xml"/>
+         <string v=".ejx"/>
+         <string v=".xcfg"/>
+         <string v=".cpx"/>
+         <string v=".dcx"/>
+         <string v=".sva"/>
+         <string v=".wsdl"/>
+         <string v=".ini"/>
+         <string v=".tld"/>
+         <string v=".tag"/>
+         <string v=".xlf"/>
+         <string v=".xsl"/>
+         <string v=".xsd"/>
+         <string v=".jpx"/>
+      </list>
       <value n="internalEncoding" v="Cp1252"/>
       <list n="Javac.commandline.optionlist">
          <string v="-g"/>
