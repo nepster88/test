@@ -1,0 +1,2070 @@
+
+<!-- saved from url=(0126)http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ab -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Developing RIA Web Applications with Oracle ADF</title>
+
+<script language="JavaScript" type="text/JavaScript">
+<!-- This OBE was updated by Patrice Daux for JDeveloper 11g Bulldog from a Developer's day material
+<!-- This OBE was updated by Patrice Daux on September 21st 2009 for JDeveloper 11g Shepherd 
+<!-- This OBE was updated by Patrice Daux on March 9th 2010 for JDeveloper 11g Shepherd to correct few minor things
+
+<!-- Contacts for this OBE are patrice.daux@oracle.com shay.shmeltzer@oracle.com
+
+var obeImages = new Array;
+var eyeglass = new Image;
+ 
+function preLoadImages()
+{
+  eyeglass.src = "images/view_image.gif";
+  images = document.images;
+  // Only load images with class="imgborder_off"
+  for (i = 0; i < images.length; i++)
+  {
+    image = images[i];
+    if (image.className.substr(0, 10) == "imgborder_")
+    {
+        img = new Image;
+        img.id = image.id;
+        img.name = image.name;
+        img.src = "images/" + image.name + ".gif";
+        obeImages[img.name] = img;
+    }
+  }
+}
+ 
+function showImage(obj)
+{
+  if (obj.className.substr(0, 10) == "imgborder_")
+  {
+    newImg = obeImages[obj.name];
+    obj.src = newImg.src;
+    if (obj.border > 0)
+    {
+      obj.className = "imgborder_on";
+    }
+  }
+}
+ 
+function hideImage(obj)
+{
+  if (obj.className.substr(0, 10) == "imgborder_")
+  {
+    obj.src = eyeglass.src;
+    obj.className = "imgborder_off";
+  }
+}
+ 
+function showAllImages()
+{
+  imgs = document.images;
+  for (i=0; i < imgs.length; i++)
+  {
+    showImage(imgs[i]);
+  }
+}
+ 
+function hideAllImages()
+{
+  imgs = document.images;
+  for (i=0; i < imgs.length; i++)
+  {
+    hideImage(imgs[i]);
+  }
+}
+//-->
+</script>
+<!--
+<link rel="stylesheet" href="library/otn_new.css" type="text/css">
+<style type="text/css">
+<!--
+.style1 {font-size: 12px}
+.style2 {
+	font-family: "Courier New", Courier, mono;
+	font-weight: bold;
+}
+-->
+
+
+
+
+<link href="./Developing RIA Web Applications with Oracle ADF_files/otn_new.css" rel="stylesheet" type="text/css"></head>
+
+<body bgcolor="#ffffff" text="#000000">
+<h3 class="topstoryhead">Developing RIA Web Applications with Oracle ADF</h3>
+<h4 class="navheader">Purpose</h4>
+<p class="bodycopy"><span class="bodycopy">This tutorial shows you how to build a rich Internet application 
+  that interacts with a database. You'll be using Oracle JDeveloper 11<em>g</em> 
+  Version 11.1.1.2.0 and the ADF framework to build the application, and in the 
+  process you'll work with Oracle ADF Business Components, Oracle ADF Faces Rich 
+  Client Components and Oracle ADF Task Flows.</span></p>
+<p class="navheader">Time to Complete</p> 
+<p class="bodycopy">Approximately 2 hours</p>
+<h3 class="Overview"><a name="t"></a><span class="navheader">Topics</span></h3>
+<p class="bodycopy">The tutorial covers the following topics: </p>
+<table border="0" cellspacing="0" cellpadding="1" width="397">
+  <tbody>
+    <tr valign="top"> 
+      <td width="23"><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td width="370" class="bodylink"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#o">Overview</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td class="bodylink"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#sc">Scenario</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td class="bodylink"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#p">Prerequisites</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#aa" class="boldbodylink">Create a New Fusion Application and 
+        Business Components</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ab" class="boldbodylink">Refine your Business Components</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td> <a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ac" class="boldbodylink">Create JSF Web Pages</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ad" class="boldbodylink"> Bind Data Controls to your JSF Page 
+        </a></td>
+    </tr>
+    <tr valign="top">
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ad2" class="boldbodylink">Enhance your JSF Page </a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ae" class="boldbodylink">Add More Complex Business Services</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#af" class="boldbodylink">Create a Page Flow</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ag" class="boldbodylink">Use ADF Faces Framework Features</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ah" class="boldbodylink">Create Read Only Business Services, 
+        Page Fragments and Regions</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td class="bodylink"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#s">Summary</a></td>
+    </tr>
+  </tbody>
+</table>
+<h4 class="navheader">Viewing Screenshots</h4>
+<p class="bodycopy"><img src="./Developing RIA Web Applications with Oracle ADF_files/view_image.gif" width="24" height="24" align="absmiddle" onmouseover="showAllImages()"> 
+  <b><span class="style1"><font color="#ff0000" face="Arial, Helvetica, sans-serif">Place 
+  the cursor over this icon to load and view all the screenshots for this tutorial. 
+  (Caution: This action loads all screenshots simultaneously, so response time 
+  may be slow depending on your Internet connection.)</font><font color="#ff0000"> 
+  </font></span></b></p>
+<p class="bodycopy"><b>Note: </b>Alternatively, you can place the cursor over 
+  an individual icon in the following steps to load and view only the screenshot 
+  associated with that step. You can hide an individual screenshot by clicking 
+  it.</p>
+<p class="bodycopy">&nbsp;</p>
+<h3 class="Overview"><a name="o"></a><span class="navheader">Overview</span></h3>
+<p class="bodycopy">This tutorial takes you through a simple scenario of building 
+  a rich internet application that provides a user interface to access database 
+  tables. You'll be using Oracle JDeveloper 11<em>g</em> Version 11.1.1.2.0 and 
+  Oracle ADF 11g to create a complete application including business services, 
+  user interface and page flows.</p>
+<p class="bodycopy">The focus of this tutorial is to illustrate the visual and declarative 
+  approach that Oracle ADF provides for Java EE application development. While 
+  working through the tutorial notice how ADF saves you from writing low level 
+  and speeds up your development process.</p>
+<p align="right" class="bodycopy"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+
+<h4 class="navheader"><a name="sc"></a>Scenario</h4>
+<p><span class="bodycopy">The application that you create in this tutorial displays 
+  information on department and employees. You will create several JSF pages that 
+  enable you to query and update the data in the database.</span></p>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h3 class="Install"><a name="p"></a><span class="navheader">Prerequisites </span></h3>
+
+<table border="0" cellspacing="0" cellpadding="1" width="650">
+  <tbody>
+    <tr valign="top">
+      <td width="25" class="bodycopy"><b> 1.</b></td>
+      <td><p class="bodycopy">Have access to or have installed Oracle JDeveloper 
+          11<em>g</em> Version 11.1.1.2.0. You can download it from <a href="http://www.oracle.com/technology/index.html">Oracle 
+          Technology Network</a>. </p>
+        <p class="bodycopy">&nbsp;</p>
+        <p></p></td>
+    </tr>
+    <tr valign="top">
+      <td width="25" class="bodycopy"><b> 2.</b></td>
+      <td> <p class="bodycopy">This tutorial uses the sample HR schema that comes 
+          with the recent versions of the Oracle database.<br>
+          For security reasons this schema is usually locked. We'll therefore 
+          unlock the user in the next steps. From a command line invoke sqlplus 
+          and login using the system user; provide the password for the account. 
+        </p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top">
+      <td width="25" class="bodycopy"><b> 3.</b></td>
+      <td> <p class="bodycopy">Type the following command in the SQL&gt; prompt <br>
+          <strong>alter user HR identified by HR account unlock;</strong><br>
+          Once the command got executed you can exit sqlplus and the command line 
+          window. </p>
+        <p class="bodycopy"><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t157.gif" name="t157" class="imgborder_off" id="t10101" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p class="bodycopy">&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td class="bodycopy" width="25"><b> 4.</b></td>
+      <td> <p class="bodycopy">Start JDeveloper using the shortcut your installation 
+          provided.<br>
+        </p>
+        <p class="bodycopy"><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/jdev.gif" name="jdev" class="imgborder_off" id="t10101" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p class="bodycopy">If you are prompted to migrate from an older version 
+          choose <strong>No</strong>. When prompted to choose a role - choose 
+          the <strong>default role</strong>. </p></td>
+    </tr>
+  </tbody>
+</table>
+
+<p align="right" class="Install"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h3 class="Install"><a name="aa" id="aa"></a><span class="navheader">Creating a 
+  New Fusion Application and Business Components</span></h3>
+<p> <span class="bodycopy">When you work in JDeveloper, you organize your work 
+  in projects within an application. JDeveloper provides several templates that 
+  you can use to create an Application and projects. The templates are pre configured 
+  with a basic set of technologies that are needed for developing various types 
+  of applications, and you create your working environment by selecting the template 
+  that fits your needs. You can then configure it to add any other technologies 
+  you plan to use.</span></p>
+<p><span class="bodycopy">In the first section you are going to create a new Application 
+  using the Fusion technology and build reusable business components that will 
+  access the database.<br>
+  You'll be using the Oracle ADF Business Components technology to map Java objects 
+  to existing tables in your database.</span></p>
+<table width="650" border="0" cellpadding="1" cellspacing="0">
+  <tbody>
+    <tr valign="top"> 
+      <td width="25"><p class="bodycopy"><strong>1.</strong></p></td>
+      <td><p class="bodycopy">In the Applications Navigator, click <strong>New 
+          Application</strong>. Another option is to use the File-&gt;New... menu 
+          option to create a new application.</p>
+        <p class="bodycopy"><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t1001.gif" name="t1001" class="imgborder_off" id="t10101" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p class="bodycopy">&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td width="25"><p class="bodycopy"><strong>2.</strong></p></td>
+      <td class="bodycopy"><p><span class="style4">In the Create Application dialog 
+          box, specify the Application Name to be <strong>HRSystem</strong>. Notice 
+          that the directory changes to match the new name. You can change the 
+          C:\JDeveloper\mywork part of the path to create your files in another 
+          location.</span> </p>
+        <p>In the Application Package Prefix field set the value to be <b>demo</b>. 
+          In the Application Templates choose the <strong>Fusion Web Application 
+          (ADF)</strong> and click <strong>Finish</strong>. </p>
+        <p><img src="./Developing RIA Web Applications with Oracle ADF_files/t002b.gif" name="t002b" class="imgborder_off" id="t002b" onclick="hideImage(this)" onmouseover="showImage(this)"></p>
+        <p>The <strong>Overview</strong> pane displays a Checklist you can refer 
+          to as a guide for developing a Fusion Web Application.</p>
+        <p><img src="./Developing RIA Web Applications with Oracle ADF_files/t002bb.gif" name="t002bb" class="imgborder_off" id="t002bb" onclick="hideImage(this)" onmouseover="showImage(this)"></p>
+        <p>The Checklist is displayed by default when a Fusion Web application 
+          is created.</p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td width="25"><span class="bodycopy"><strong>3.</strong></span></td>
+      <td class="bodycopy"><p>In the Application Navigator you'll see two new 
+          projects now, one called <strong>Model</strong> and the other called 
+          <strong>ViewController</strong>. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t003b.gif" name="t003b" class="imgborder_off" id="t003b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><span class="bodycopy"><strong>4.</strong></span></td>
+      <td class="bodycopy"><p>In the CheckList Overview, click the <strong>Connect 
+          to a Database </strong>step.<strong> </strong> </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at004b.gif" name="at004b" class="imgborder_off" id="at004b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><span class="bodycopy"><strong>5.</strong></span></td>
+      <td class="bodycopy"><p>The step expands showing useful information such 
+          as prerequisites required for performing this task. Click the <strong>Create 
+          a Database Connection </strong>button.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at005b.gif" name="at005b" class="imgborder_off" id="at005b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><span class="bodycopy"><strong>6.</strong></span></td>
+      <td class="bodycopy"><p>Specify the following properties for the new connection 
+          you are creating: 
+        <table border="1" class="bodycopy">
+          <tbody><tr> 
+            <td width="100">Connection Name</td>
+            <td width="95"><strong>HRConn</strong></td>
+          </tr>
+          <tr> 
+            <td>Username</td>
+            <td><strong>hr</strong></td>
+          </tr>
+          <tr> 
+            <td>Password</td>
+            <td><strong>hr</strong></td>
+          </tr>
+        </tbody></table>
+        <br>
+        Enter the <strong>Oracle JDBC Settings</strong> properly to point to the 
+        right <strong>host</strong>, <strong>port</strong> and <strong>SID</strong> 
+        for your database. Click the <strong>Test Connection</strong> button and 
+        verify that you got success. 
+        </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t003.gif" name="t003" class="imgborder_off" id="t10202" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>Once done click the <strong>OK</strong> button. </p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top">
+      <td><span class="bodycopy"><strong>7.</strong></span></td>
+      <td class="bodycopy"><p>Click the down arrow to collapse the Connect to 
+          a Database step.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at003b.gif" name="at003b" class="imgborder_off" id="t10202" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>In the Checklist pane, set the status of the <strong>Connect to a Database</strong> 
+          step to <strong>Done</strong>.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at003.gif" name="at003" class="imgborder_off" id="t10202" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top"> 
+      <td><span class="bodycopy"><strong>8.</strong></span></td>
+      <td class="bodycopy"><p>Click the <strong>Build Business Services</strong> 
+          step to expand it, then click the <strong>Go to Substeps</strong> button.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at008.gif" name="at008" class="imgborder_off" id="at008" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><span class="bodycopy"><strong>9.</strong></span></td>
+      <td class="bodycopy"><p>In the subtask list, click the <strong>Create Entity 
+          Objects and Associations</strong> subtask.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at009.gif" name="at009" class="imgborder_off" id="at009" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>Then click the <strong>Create Entity Objects and Associations</strong> 
+          button.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at010.gif" name="at010" class="imgborder_off" id="at010" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><span class="bodycopy"><strong>10.</strong></span></td>
+      <td class="bodycopy"><p>In the Select Project for Action dialog, select 
+          the <strong>Model</strong> project.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at011.gif" name="at011" class="imgborder_off" id="at011" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp; </p></td>
+    </tr>
+    <tr valign="top"> 
+      <td width="25"><strong class="bodycopy">11.</strong></td>
+      <td class="bodycopy"><p>In the Initialize Business Components Project dialog 
+          the <strong>HRConn</strong> connection should be selected. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at012.gif" name="at012" class="imgborder_off" id="at012" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>Click <strong>OK</strong>.</p>
+        <p>&nbsp;</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+  <tbody><tr valign="top"> 
+    <td width="25"><b> 12.</b></td>
+    <td> <p>In the Entity Objects page, click the <strong>Query</strong> button 
+        to examine the data dictionary and see available tables.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t005.gif" name="t005" class="imgborder_off" id="t10205" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50" width="25"><b> 13.</b></td>
+    <td> <p>Select the <strong>DEPARTMENTS</strong> and <strong>EMPLOYEES</strong> 
+        tables in the<strong> </strong>Available list, and click the right arrow 
+        <img src="./Developing RIA Web Applications with Oracle ADF_files/right_arrow.gif" width="18" height="20"> to move your 
+        selections to the Selected list. This step creates updateable Entity Objects 
+        based on the tables you chose. 
+      </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t171.gif" name="t171" class="imgborder_off" id="t10206" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click <strong>Next</strong> to continue. </p>
+      <p><br>
+      </p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b> 14.</b></td>
+    <td> <p>In the Updateable View Objects dialog, move <strong>Departments</strong> 
+        (HR.DEPARTMENTS) and <strong>Employees</strong> (HR.EMPLOYEES) to the 
+        Selected list. This step creates matching view objects DepartmentsView 
+        and EmployeesView to perform queries on the entity object you created 
+        before. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t172.gif" name="t172" class="imgborder_off" id="t10207" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click <strong>Next</strong> to continue.</p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>15.</b></td>
+    <td><p>In the Read Only View Objects dialog, click the <strong>Query</strong> 
+        button and then move <strong>JOBS</strong> to the Selected list. This 
+        step creates a read only view object that queries the Jobs table. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t008.gif" name="t008" class="imgborder_off" id="t10208" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click <strong>Next</strong> to continue. </p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>16.</b></td>
+    <td><p>In the Application Module dialog, click <strong>Finish</strong> to 
+        create the business components in the Model project.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t009.gif" name="t009" class="imgborder_off" id="t10209" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>17.</b></td>
+    <td><p>In the Checklist, set the status of the <strong>Create Entity Objects 
+        and Associations</strong> step to <strong>Done</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at0010.gif" name="at0010" class="imgborder_off" id="t10209" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Then click the <strong>Close Step 3</strong> button. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at0010b.gif" name="at0010b" class="imgborder_off" id="t10209" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Note: Since steps 3.2, 3.3 and 3.4 have also been completed, we could 
+        as well set their status to done, but we'll do it at a higher level.</p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td><b>18.</b></td>
+    <td><p>Set the status of the <strong>Build Business Services</strong> step 
+        to <strong>Done</strong>.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at0011.gif" name="at0011" class="imgborder_off" id="t10209" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td><b>19.</b></td>
+    <td><p>In the Application Navigator Right-click <strong>AppModel</strong> 
+        and select <strong>Run </strong> to invoke the application module tester. 
+        This is a small Swing based application that allows you to test the ADF 
+        Business Components you have just created.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t010.gif" name="t010" class="imgborder_off" id="t10210a" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>20.</b></td>
+    <td><p>In the Oracle Business Component Browser window, double click the <strong>EmpDeptFkLink1</strong> 
+        node to show the department and employees details. Navigate between the 
+        records using the Next button <img src="./Developing RIA Web Applications with Oracle ADF_files/right_arrow.gif" width="18" height="20"><strong> 
+        </strong> and watch the automatic master details synchronization.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t012.gif" name="t012" class="imgborder_off" id="t10209" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>21.</b></td>
+    <td><p>Click the <strong>Specify View Criteria (binocular icon) </strong>button<img src="./Developing RIA Web Applications with Oracle ADF_files/iconBinocular.gif" width="24" height="22"> 
+        in the master toolbar, to enter search criteria for your data. Specify 
+        <strong>1700</strong> in the LocationID field and click the <strong>Find</strong> 
+        button to execute the query. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t102.gif" name="t102" class="imgborder_off" id="t10210b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>22.</b></td>
+    <td><p>The form would now only show departments from this location. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t102bis.gif" name="t102bis" class="imgborder_off" id="t10210b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click around the Oracle Business Component Browser to see other data 
+        and functionality offered for you.</p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>23.</b></td>
+    <td><p>Close the Oracle Business Component Browser window, and back in JDeveloper, 
+        click the <b>Save All</b> <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> 
+        icon on the JDeveloper menu bar, or select <b>File | Save All</b> from 
+        the menu. </p></td>
+  </tr>
+</tbody></table>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h4>
+  <p><a name="ab" id="ab"></a><span class="navheader">Refining your Business Components</span></p>
+</h4>
+<p><span class="bodycopy">In this topic you refine your business services by adding validation 
+  rules, formatting and default values.</span> <span class="bodycopy">To add validation 
+  rules, perform the following steps:</span> </p>
+<h4> 
+  <table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+    <tbody><tr valign="top"> 
+      <td width="25"><b> 1.</b></td>
+      <td> <p>In the Application Navigator locate the <strong>Employees</strong> 
+          entity object and double click it to open it for editing. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t013.gif" name="t013" class="imgborder_off" id="t20101" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50" width="25"><b> 2.</b></td>
+      <td> <p>In the Employees1.xml window, click the <strong>Attributes</strong> 
+          node and locate the <b>Salary</b> attribute, and click it. Scroll down 
+          in the page to the validation section and click the <strong>Add </strong>icon 
+          <img src="./Developing RIA Web Applications with Oracle ADF_files/iconGreenPlus.gif" width="23" height="22"> to add a 
+          new Validation rule. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t015b.gif" name="t015b" class="imgborder_off" id="t20102" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p><br>
+        </p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b> 3.</b></td>
+      <td> <p>In the Add Validation Rule dialog choose <strong>Range</strong> 
+          from the Rule Type drop down list. Note the various other types of rules 
+          you can define here. In the Operator drop down keep the <strong>Between</strong> 
+          value, and type <strong>0</strong> for the minimum value and <strong>99000</strong> 
+          for the maximum value fields.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t016.gif" name="t016" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b> 4. </b></td>
+      <td> <p>Click the <strong>Failure Handling</strong> tab to define an error 
+          message that will appear when the validation fails. In the <strong>Message 
+          Text</strong> field type an error message like "<strong>Salary out of 
+          range 0 to 99,000</strong>". 
+        </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t017.gif" name="t017" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>Click <strong>OK</strong>. </p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b> 5. </b></td>
+      <td> <p>Next we'll add a default value to the hired date field - so when 
+          we create a new employee we'll have today's date as the default value.<br>
+          Back in the <strong>Employees.xml</strong> window, locate the <b>HireDate</b> 
+          attribute, and click it. If not already there, bring up the properties 
+          window using <strong>CTRL+Shift+I</strong>. 
+        </p><p>In the <strong>Value</strong> section locate the <strong>Default Value 
+          Type</strong> property and choose <strong>Expression</strong>, then 
+          set the <strong>Default Value</strong> property to <strong>adf.currentDate</strong>. 
+          This will make sure the default value for a new record is set to today's 
+          date. 
+        </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t034.gif" name="t034" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b> 6. </b></td>
+      <td> <p>You can also specify UI Hints for attribute to control how they 
+          will display by default in the forms and pages that will use them. In 
+          our case we'll add a default format mask for the Hired date field you 
+          can also specify labels and tooltip helps here.<br>
+          In the <strong>UI Hints</strong> section of the property inspector locate 
+          the <strong>Format Type</strong> property and select <strong>Simple 
+          Date</strong>. 
+        </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t019.gif" name="t019" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>Locate the <strong>Format</strong> property and type <strong>MM/dd/yyyy</strong>. 
+        </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t020.gif" name="t020" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b> 7. </b></td>
+      <td> <p>You can now run the Application Module Tester again (right click 
+          <strong>Run</strong> on the AppModule) to check the new validation, 
+          default value for new record and UI hint you added. Click on any of 
+          the <strong>EmployeesView</strong> in the tester.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at020.gif" name="at020" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b>8.</b></td>
+      <td><p>Enter an out of range value as <strong>salary</strong> to check validation 
+          and the error message. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at021.gif" name="at021" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b>9.</b></td>
+      <td><p>Click the <strong>Insert Record</strong> button <img src="./Developing RIA Web Applications with Oracle ADF_files/iconButtonAdd.gif" width="18" height="19"> 
+          and see the default value you defined appear for the <strong>HireDate</strong> 
+          field.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/at022.gif" name="at022" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>Close the Tester.</p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b>10.</b></td>
+      <td>Click the <b>Save All</b> <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> 
+        icon on the JDeveloper menu bar, or select <b>File | Save All</b> from 
+        the menu. </td>
+    </tr>
+  </tbody></table>
+  </h4>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h4>
+  </h4><h4>
+    <p><a name="ac" id="ac"></a><span class="navheader">Creating JSF Web pages</span></p>
+  </h4>
+
+<p><span class="bodycopy">JavaServer Faces or JSF for short is a standard Java EE 
+  technology that simplifies Web development. <br>
+  In this section you create a JSF page to access the business components that 
+  you created in the previous section. You learn how to create a form that can 
+  be used to displays and modify data. You'll also use a master-detail relationship 
+  to display the information about employees in each department. To build the 
+  page you'll be using the Oracle ADF Faces Rich Client Components - these components 
+  allow you to build Ajax-based rich Web UI without writing low level HTML and 
+  Javascript code. <br>
+  The Web part of the application is developed in a separate project called the 
+  viewcontroller project. This separation between the Model layer and the user 
+  interface makes the business services more reusable.</span></p>
+<h4> 
+  </h4><h4> 
+    <table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+      <tbody><tr valign="top"> 
+        <td width="25"><b> 1.</b></td>
+        <td> <p>We'll start by creating a new Web page. Right-click the <strong>ViewController</strong> 
+            project node in the Application Navigator, and select <strong>New...</strong>. 
+          </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t039.gif" name="t039" class="imgborder_off" id="t20101" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50" width="25"><b> 2.</b></td>
+        <td> <p>In the New Gallery window, navigate to the <strong>Web Tier</strong> 
+            and <strong>JSF</strong> node, and choose the <strong>JSF Page</strong> 
+            option. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t040.gif" name="t040" class="imgborder_off" id="t20102" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click <strong>OK</strong>.</p>
+          <p><br>
+          </p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 3.</b></td>
+        <td> <p>In the Create JSF Page dialog box, rename the page to <strong>DeptEmpPage.jspx</strong>, 
+            in the Page Template drop down box select <strong>Oracle Three Column 
+            Layout</strong>, and make sure the <strong>Create as XML Document</strong> 
+            is checked. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t041.gif" name="t041" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click <strong>OK</strong>.</p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 4. </b></td>
+        <td> <p>Your page will be opened in the visual design view. The template 
+            has three columns in it, since we only need two in our page, we'll 
+            delete the third one.<br>
+            Place your cursor in the right-most section called <strong>end</strong> 
+            and right click to choose <strong>Delete</strong>.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t042.gif" name="t042" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>With the <strong>af:pageTemplate</strong> selected in the Structure 
+            pane, in the Property inspector set the startColumnSize value to <strong>350</strong> 
+            to enlarge it.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t042bis.gif" name="t042bis" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 5. </b></td>
+        <td> <p>Now we are going to add some layout components to our page. In 
+            the component palette window expand the <strong>Layout</strong> accordion 
+            and click and drag the <strong>Panel Accordion</strong> component 
+            into the <strong>Start</strong> area of your page.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t043.gif" name="t043" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 6. </b></td>
+        <td> <p>Click the <strong>ShowDetails1</strong> accordion that was created 
+            and in the Property Inspector change its <strong>Text</strong> property 
+            to <strong>Departments</strong>.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t044.gif" name="t044" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 7. </b></td>
+        <td> <p>Right click the new <strong>Departments</strong> accordion and 
+            choose <strong>Insert After Show Details Item - Departments -&gt; Show 
+            Detail Item</strong>. This adds one more accordion to your page. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t045.gif" name="t045" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Change its <strong>Text</strong> property to <strong>More Info</strong>. 
+            <br>
+            This was another way to add components to a page using context menus 
+            directly inside the Design view.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t045bis.gif" name="t045bis" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 8. </b></td>
+        <td> <p>From the <strong>Layout</strong> components, click and drag a 
+            <strong>Panel Splitter</strong> component onto the <strong>Center</strong> 
+            area of your page. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t046.gif" name="t046" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 9. </b></td>
+        <td> <p>In the Property Inspector change the <strong>Orientation</strong> 
+            property of the new splitter to be <strong>Vertical</strong>. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t047.gif" name="t047" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 10. </b></td>
+        <td> <p>From the <strong>Layout</strong> components, click and drag a 
+            <strong>Panel Collection</strong> component into the <strong>first</strong> 
+            area at the top of your splitter on your page. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t048.gif" name="t048" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 11. </b></td>
+        <td> <p>From the <strong>Layout</strong> components, click and drag a 
+            <strong>Panel Tab</strong> component into the <strong>second</strong> 
+            area at the bottom of your splitter on your page. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t049.gif" name="t049" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 12. </b></td>
+        <td> <p>Your page should look like the image below. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t051.gif" name="t051" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click the <b>Save All</b> <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> 
+            icon on the JDeveloper menu bar to save your work.</p></td>
+      </tr>
+    </tbody></table>
+  </h4>
+
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<p><a name="ad" id="ad"></a><span class="navheader">Binding Data Controls to your 
+  JSF page</span></p>
+<span class="bodycopy">In the next few steps you are going to bind the business components 
+you created to your user interface. You'll do this with simple drag and drop operations 
+- behind the scene the ADF Model layer takes care of this binding for you. </span> 
+<h4> 
+  </h4><h4> 
+    <table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+      <tbody><tr valign="top"> 
+        <td width="25"><b> 1.</b></td>
+        <td><p>In Page design pane, click the <strong>Departments</strong> accordion 
+            to expand it.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t104p1.gif" name="t104p1" class="imgborder_off" id="t20201" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td width="25"><b> 2.</b></td>
+        <td> <p>In the Application Navigator expand the <strong>Data Controls</strong> 
+            accordion, and in it expand the <strong>AppModuleDataControl</strong> 
+            to expose the business services you defined in the first part of this 
+            lab.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t104.gif" name="t104" class="imgborder_off" id="t20201" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b> 3.</b></td>
+        <td> <p>Drag the <strong>DepartmentsView1</strong> data control into the 
+            <strong>Departments</strong> accordion in your JSF page. When prompted 
+            to choose a component to Create choose <strong>Forms-&gt;ADF Read-Only 
+            Form</strong>. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t055.gif" name="t055" class="imgborder_off" id="t20202" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p><br>
+          </p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b> 4. </b></td>
+        <td> <p>In the Edit Form fields dialog, check the <strong>Include Navigation 
+            Controls</strong> check box. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t056.gif" name="t056" class="imgborder_off" id="t20203a" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click <strong>OK</strong>.</p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>5.</b></td>
+        <td> <p>In the <strong>Data Controls</strong> accordion expand the <strong>DepartmentsView1</strong> 
+            control to expose the fields it contains as well as the related <strong>EmployeesView3</strong> 
+            control for the employees in each department.<br>
+            Note that these are the detail employees for the master departments 
+            - they are linked and therefore the employees you'll see in this view 
+            object will be the ones working in a specific department you are looking 
+            at.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t057.gif" name="t057" class="imgborder_off" id="t20204" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>6.</b></td>
+        <td><p>Drag the <strong>EmployeesView3</strong> data control into the 
+            <strong>Panel Collection</strong> on the top right side of your JSF 
+            page. <br>
+            When prompted to choose a component to Create choose <strong>Tables-&gt;ADF 
+            Read-Only Table</strong>.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t058.gif" name="t058" class="imgborder_off" id="t20205" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>7.</b></td>
+        <td><p>In the Edit Table Columns dialog, check the three check boxes for 
+            <strong>Row Selection</strong>,<strong> Sorting</strong>,<strong> 
+            </strong>and<strong> Filtering</strong>. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t059_Alt.gif" name="t059_Alt" class="imgborder_off" id="t20206a" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click <strong>OK</strong>.</p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>8.</b></td>
+        <td><p>Drag the <strong>EmployeesView3</strong> data control again but 
+            this time into the <strong>Tab</strong> on the bottom right side of 
+            your JSF page. <br>
+            When prompted to choose a component to Create choose <strong>Form-&gt;ADF 
+            Form</strong>.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t060.gif" name="t060" class="imgborder_off" id="t20205" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>9.</b></td>
+        <td><p>In the Edit Form Fields dialog, check the check boxes for <strong>Include 
+            Submit Button</strong>. Using your mouse and the <strong>Shift</strong> 
+            key select the bottom three fields from the list <strong>CommissionPCT, 
+            ManagerId, DepartmentID</strong> and delete them by pressing the <strong>Delete 
+            </strong> button <img src="./Developing RIA Web Applications with Oracle ADF_files/iconCrossRed.gif" width="18" height="19"> 
+            at the top right. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t061.gif" name="t061" class="imgborder_off" id="t20206a" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click <strong>OK</strong>.</p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>10.</b></td>
+        <td><p>Your JSP should look like this:</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t062.gif" name="t062" class="imgborder_off" id="t20206b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>11.</b></td>
+        <td><p>Click the <b>Save All</b> <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> 
+            icon on the JDeveloper menu bar to save your work. <br>
+            Right click in your page and choose <strong>Run</strong>. This will 
+            compile your project, build it, and launch the integrated WebLogic 
+            Server to run it. Then a Web browser will open up and will display 
+            your page. You can follow the progress of these steps in the log window 
+            in JDeveloper.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t063.gif" name="t063" class="imgborder_off" id="t20207" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>12.</b></td>
+        <td><p>Once your page appears in your browser, using the <strong>splitter</strong> 
+            resize the page area to display the data of the department. Then use 
+            the <strong>Next</strong> button to scroll through the departments.<br>
+            Notice that the data for the employees changes accordingly in the 
+            table and the Form beneath it.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t064.gif" name="t064" class="imgborder_off" id="t20208a" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>13.</b></td>
+        <td><p>Try to update the <strong>HireDate</strong> field for one of the 
+            employees with an invalid date such as <strong>11/11/123</strong> 
+            and notice the error message when you try to leave the field.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t066.gif" name="t066" class="imgborder_off" id="t20208b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Use the <strong>Clock Icon</strong> next to the field to bring up 
+            a pop-up Calendar and choose a valid date.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t067.gif" name="t067" class="imgborder_off" id="t20208b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>14.</b></td>
+        <td><p>Update the <strong>Salary</strong> field to a value that will break 
+            the validation you created before such as <strong>-9</strong> and 
+            click the <strong>Submit</strong> button to get the error message 
+            you created.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t068.gif" name="t068" class="imgborder_off" id="t20208b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>15.</b></td>
+        <td><p>Browse to department <strong>50</strong> and notice that you can 
+            now scroll the data in the employees table.<br>
+            Click on one of the column header in the table to sort the data in 
+            the table.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t069.gif" name="t069" class="imgborder_off" id="t20208b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>16.</b></td>
+        <td><p>Click a column heading in the table and drag it to reposition the 
+            column in the table.</p>
+          <p> <span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t070.gif" name="t070" class="imgborder_off" id="t20208b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>The new column order looks like the following:</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t070b.gif" name="t070b" class="imgborder_off" id="t20208b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>17.</b></td>
+        <td><p>In the Filter field above the <strong>LastName</strong> column 
+            type <strong>B%</strong> and hit <strong>Enter</strong> to filter 
+            the table to show only employees whose name begins with B.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t071.gif" name="t071" class="imgborder_off" id="t20208b" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><b>18.</b></td>
+        <td><p>Play with the other menu and buttons of the table to see additional 
+            functionality. Once you are done, <strong>close</strong> the browser 
+            and return to JDeveloper.</p>
+          </td>
+      </tr>
+      <tr valign="top"> 
+        <td colspan="2"></td>
+      </tr>
+    </tbody></table>
+  </h4>
+
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<p align="left"><a name="ad2" id="ad2"></a><span class="navheader">Enhancing your 
+  JSF page</span></p>
+<p><span class="bodycopy">In the next few steps you are going to change the table of employees 
+  on our page to add the ability to do column selection and bind the business 
+  components to a graph representation to your user interface. You'll do this 
+  with simple drag and drop operations - behind the scene the ADF Model layer 
+  takes care of this binding for you. </span></p>
+<table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+  <tbody><tr valign="top"> 
+    <td width="25"><b> 1.</b></td>
+    <td><p>Back in JDeveloper select the <strong>Employees Table</strong> in the 
+        JSF page design editor or in the structure pane. Set the <strong>Column 
+        Selection</strong> Property of the table to <strong>Single</strong>.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t072.gif" name="t072" class="imgborder_off" id="t20210a" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td><b>2.</b></td>
+    <td><p>Next we'll add a graph representation of the data to our page - this 
+        is done using the ADF Data Visualization set of JSF components. <br>
+        In the Design Editor click the <strong>More Info</strong> accordion to 
+        expand it. Then drag the <strong>EmployeesView3</strong> data control 
+        into the <strong>More Info</strong> accordion. When prompted to choose 
+        a component to Create choose <strong>Graph...</strong>.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t073.gif" name="t073" class="imgborder_off" id="t20212a" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>The graph component is one of the ADF Faces Data Visualization components. 
+        The Graph can be displayed as static PNG image or an interactive Flash 
+        component. You can control these behaviors through the properties of the 
+        graph component. </p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td><b>3.</b></td>
+    <td><p>In the Component Gallery Dialog choose <strong>Pie</strong> from the 
+        list of graphs on the left and <strong>Pie</strong> again as a graph type. 
+        In the bottom pane, select the <strong>third</strong> Quick Start Layout.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t074.gif" name="t074" class="imgborder_off" id="t20211" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Then click the <strong>OK</strong> button.</p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td><b>4.</b></td>
+    <td><p>In the Create Pie Graph dialog choose <strong>Salary</strong> for the 
+        pie list and drag and drop <strong>LastName</strong> for the slices. </p>
+      <p> <span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t075.gif" name="t075" class="imgborder_off" id="t20213" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Then click the <strong>OK</strong> button.</p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>5.</b></td>
+    <td><p>Click the <b>Save All</b> <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> 
+        icon on the JDeveloper menu bar to save your work. </p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>6.</b></td>
+    <td><p>Right click within the page and select <strong>Run</strong> from context. 
+      </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t075n1.gif" name="t075n1" class="imgborder_off" id="t20213" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp; </p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>7.</b></td>
+    <td><p>Browse to department <strong>30</strong>. Because you set the column 
+        selection to single, note the additional behaviors for your table that 
+        are available once you choose a column - such as <strong>Freeze</strong> 
+        and <strong>Wrap</strong>. Select a column, then click the <strong>Freeze</strong> 
+        button. Now use the horizontal scroll bar to view the right most columns.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t075n2.gif" name="t075n2" class="imgborder_off" id="t20213" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>8.</b></td>
+    <td>Browse to department <strong>30</strong> then, expand the <strong>More</strong> 
+      <strong>Info</strong> accordion and note the graph and the pop-up it displays 
+      when you hover over it with your mouse. 
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t076.gif" name="t076" class="imgborder_off" id="t20213" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>When done, <strong>close</strong> the browser and return to JDeveloper. 
+      </p></td>
+  </tr>
+</tbody></table>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h4>
+  <p><a name="ae" id="ae"></a><span class="navheader">Adding More Complex Business 
+    Services</span></p>
+</h4>
+<span>
+<p class="bodycopy">In this section we'll add a new Business Service to our application 
+  that will display a subset of the fields from the Employees table, along with 
+  the department name from the Departments table. We'll also add calculated fields. 
+  <br>
+  Oracle ADF Business Components allows you to create such complex updateable 
+  components in a declarative way.</p>
+</span> 
+<h4> 
+  </h4><h4> 
+    <table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+      <tbody><tr valign="top"> 
+        <td height="50"><b> 1. </b></td>
+        <td> <p>In the Application Navigator right click the <strong>demo.model</strong> 
+            package and choose <strong>New View Object</strong>. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t021.gif" name="t021" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b>2. </b></td>
+        <td> <p>In the Name dialog update the Name field to be <strong>EmpDetails</strong> 
+            and keep the default type of Updateable Access Through Entity Objects. 
+          </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t022.gif" name="t022" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click the <strong>Next</strong> button.</p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 3. </b></td>
+        <td> <p>In the Entity Objects dialog first select <strong>Employees</strong> 
+            and shuttle it to the right, and then select the <strong>Departments</strong> 
+            entity and add it to the right hand selection.<br>
+            Note that only the Employees entity has the updateable checkbox checked 
+            - the departments entity is used to read data only. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t023.gif" name="t023" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p><p></p> 
+          Click <strong>Next</strong>. 
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 4. </b></td>
+        <td> <p>In the Attributes dialog shuttle the following <strong>Employees</strong> 
+            attributes to the right: 
+          </p><ul class="bodycopy">
+            <li><strong>EmployeeId</strong></li>
+            <li><strong>FirstName</strong></li>
+            <li><strong>LastName</strong></li>
+            <li><strong>Salary</strong></li>
+            <li><strong>HireDate</strong></li>
+            <li><strong>JobId</strong></li>
+          </ul>
+          And from the <strong>Departments</strong> entity shuttle the following 
+          attributes to the right: 
+          <ul>
+            <li><strong>DepartmentID</strong></li>
+            <li><strong>DepartmentName</strong></li>
+          </ul>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t103.gif" name="t103" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>At this stage you can click the <strong>Finish</strong> button to 
+            complete the view object creation.</p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 5. </b></td>
+        <td> <p>Next we are going to see how to add a calculated attribute to 
+            our object - we'll add an attribute that will show the yearly salary.<br>
+            In the <strong>EmpDetails.xml</strong> editor switch to the <strong>Attributes</strong> 
+            section and click the <strong>Add </strong> button <img src="./Developing RIA Web Applications with Oracle ADF_files/iconGreenPlus.gif" width="23" height="22"> 
+            to add a new attribute. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t025.gif" name="t025" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp; </p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 6. </b></td>
+        <td> <p>In the New View Object Attribute dialog update the following fields: 
+          <table border="1" class="bodycopy">
+            <tbody><tr> 
+              <td width="85"><b>Field</b></td>
+              <td width="107"><b>Value</b></td>
+            </tr>
+            <tr> 
+              <td>Name</td>
+              <td><strong>YearlySalary</strong></td>
+            </tr>
+            <tr> 
+              <td>Type</td>
+              <td><strong>Number</strong></td>
+            </tr>
+            <tr> 
+              <td>Value Type</td>
+              <td><strong>Expression</strong></td>
+            </tr>
+            <tr> 
+              <td>Value</td>
+              <td><strong>Salary * 12</strong></td>
+            </tr>
+          </tbody></table>
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t026.gif" name="t026" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click the <strong>OK</strong> button. </p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 7.</b></td>
+        <td> <p> In the next couple of steps we'll show how to add a list of values 
+            to a field based on a set of values stored in another table. In this 
+            case we'll add a list of values for possible job titles from the jobs 
+            table.<br>
+            In the<strong> EmpDetails.xml</strong> editor switch to the <strong>View 
+            Accessors</strong> section click the <strong>Add </strong> button 
+            <img src="./Developing RIA Web Applications with Oracle ADF_files/iconGreenPlus.gif" width="23" height="22"> to add 
+            a new view accessor. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t028.gif" name="t028" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 8. </b></td>
+        <td> <p>In the View Accessors dialog shuttle the <strong>JobViews </strong> 
+            to the right. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t029.gif" name="t029" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click the <strong>OK</strong> button. </p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 9. </b></td>
+        <td> <p>In the EmpDetails.xml editor switch to the <strong>Attributes</strong> 
+            section, select the <strong>JobId</strong> attribute and in the <strong>List 
+            Of Values</strong> section click the <strong>Add </strong> button 
+            <img src="./Developing RIA Web Applications with Oracle ADF_files/iconGreenPlus.gif" width="23" height="22">. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t030.gif" name="t030" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 10. </b></td>
+        <td> <p>In the List of Values dialog select <strong>JobsView1 </strong> 
+            for the List Data Source field, and <strong>JobId</strong> as the 
+            List Attribute. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t031.gif" name="t031" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 11. </b></td>
+        <td> <p>Still in the List of Values dialog Click the <strong>UI Hints</strong> 
+            tab and choose <strong>Input Text with List of Values</strong> as 
+            the Default List Type and then shuttle the <strong>Job Title</strong> 
+            attribute to the right. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t032.gif" name="t032" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click the <strong>OK</strong> button. </p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 12. </b></td>
+        <td> <p>Now we need to add the new object that we created to the data 
+            model we exposed to the user interface developers.<br>
+            In the Application Navigator double click the <strong>AppModule</strong> 
+            to open it for editing and choose the <strong>Data Model</strong> 
+            section of the editor. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t027.gif" name="t027" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 13. </b></td>
+        <td> <p>Click the <strong>EmpDetails</strong> view object and shuttle 
+            it to the right. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t036.gif" name="t036" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b>14.</b></td>
+        <td><p>In the Application Navigator Right-click <strong>AppModel</strong> 
+            and select <strong>Run </strong> to invoke the application module 
+            tester. This is a small Swing based application that allows you to 
+            test the ADF Business Components you have just created.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t010Bis.gif" name="t010Bis" class="imgborder_off" id="t10210a" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 15. </b></td>
+        <td> <p>Double click the <strong>EmpDetails</strong> view object to test 
+            the functionality you defined. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t037.gif" name="t037" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 16. </b></td>
+        <td> <p>Try setting the <strong>Salary</strong> to <strong>-3</strong> 
+            and note the error message once you leave the field. Note the date 
+            format for <strong>HireDate</strong> and the fact that the department 
+            name and the yearly salary are displayed. 
+          </p><p>Now invoke the list of values for the <strong>JobId</strong> to choose 
+            a new job. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t038.gif" name="t038" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 17. </b></td>
+        <td> <p>The selected job gets populated. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t038b.gif" name="t038b" class="imgborder_off" id="t20103" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 18. </b></td>
+        <td> <p><strong>Close</strong> the Business Components Tester window without 
+            committing the changes and back in JDeveloper, click the <b>Save All</b> 
+            <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> icon on 
+            the JDeveloper menu bar to save your work.</p></td>
+      </tr>
+    </tbody></table>
+  </h4>
+
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h4>
+  </h4><h4>
+    </h4><h4>
+      <p><a name="af" id="af"></a><span class="navheader">Creating a Page Flow</span></p>
+    </h4>
+  
+
+<p><span class="bodycopy">Web applications usually have more than one page in them. In the 
+  next section you are going to add another page to your application and use the 
+  ADF Task Flow to define the navigation rules between the two pages. </span><span class="bodycopy">To add a page flow and navigate between pages, perform the following 
+  steps:</span></p>
+<h4> 
+  </h4><h4> 
+    <table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+      <tbody><tr valign="top"> 
+        <td width="25"><b> 1.</b></td>
+        <td> <p>In the Application Navigator under the <strong>ViewController</strong> 
+            project locate the file <strong>adf-config</strong> under the <strong>page 
+            flows</strong> node. Double click it to open it in the editor. This 
+            is where we define navigation in our application. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t077.gif" name="t077" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp; </p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50" width="25"><b> 2.</b></td>
+        <td> <p>Drag and drop the <strong>DeptEmpPage.jspx</strong> file from 
+            the application navigator into the <strong>empty adf-config</strong> 
+            diagram.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t078.gif" name="t078" class="imgborder_off" id="t20302" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p><br>
+          </p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 3.</b></td>
+        <td> <p>From the Component Palette drag and drop a <strong>View</strong> 
+            component into the adf-config diagram, and rename it to <strong>query</strong>. 
+            This is going to be a new JSF page that we'll create in a minute. 
+          </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t079.gif" name="t079" class="imgborder_off" id="t20303" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 4. </b></td>
+        <td> <p>From the Component Palette choose a <strong>Control Flow Case</strong> 
+            and then click on the <strong>DeptEmpPage</strong> and drag a line 
+            to the <strong>query</strong> page. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t080.gif" name="t080" class="imgborder_off" id="t20304" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Name this line <strong>goQuery</strong>.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t081.gif" name="t081" class="imgborder_off" id="t20304" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p>
+          </td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b>5.</b></td>
+        <td><p>From the Component Palette choose another <strong>Control Flow 
+            Case</strong> and then create an opposite flow from the <strong>query</strong> 
+            page to the <strong>DeptEmpPage</strong>. Name this flow <strong>back</strong></p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t082.gif" name="t082" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b>6.</b></td>
+        <td><p>Double click the <strong>query</strong> view in the diagram to 
+            create the new page. Using the<strong> Page Template</strong> option, 
+            select the <strong>Oracle Three Column Layout</strong> one in the 
+            Create JSF page dialog. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t083.gif" name="t083" class="imgborder_off" id="t20306" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>Click <strong>OK</strong>. </p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>7.</b></td>
+        <td><p>In the Structure pane, select the <strong>end</strong> and <strong>start</strong> 
+            facets from the template and right click to <strong>delete</strong> 
+            them.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t083bis.gif" name="t083bis" class="imgborder_off" id="t20306" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>8.</b></td>
+        <td><p>In the Data Controls pane, click the <strong>Refresh</strong> button 
+            to have <strong>EmpDetails1</strong> appearing in the list.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t083ter.gif" name="t083ter" class="imgborder_off" id="t20306" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>9.</b></td>
+        <td><p>Locate the <strong>EmpDetails1</strong> data control expand it 
+            and expand the <strong>Named Criteria</strong> node under it. Select 
+            the <strong>All Queriable Attributes</strong> and drag it into the 
+            <strong>center</strong> area of the new <strong>query.jspx</strong> 
+            page. <br>
+            When prompted to choose a component to Create choose <strong>Query 
+            -&gt; ADF Query Panel</strong>. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t092.gif" name="t092" class="imgborder_off" id="t20307" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>10.</b></td>
+        <td><p> In the Data Controls accordion select the <strong>EmpDetails1</strong> 
+            data control and drag it into the center area of the page below the 
+            query component. <br>
+            When prompted to choose a component to Create choose <strong>Form-&gt;ADF 
+            Form</strong>. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t093.gif" name="t093" class="imgborder_off" id="t20308" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>In the Edit Forms Details, check both the <strong>Include Navigation 
+            Controls</strong> and the <strong>Include Submit Button</strong>. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t094.gif" name="t094" class="imgborder_off" id="t20308" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>Click <strong>OK</strong>. </p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>11.</b></td>
+        <td><p>In the structure pane locate the <strong>Submit</strong> button, 
+            right click it and choose <strong>Insert after af:command:Button - 
+            Submit -&gt; Button</strong>. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t176.gif" name="t176" class="imgborder_off" id="t20308" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p> Using the property inspector change the <strong>Text</strong> of 
+            the new button to be <strong>Back</strong> and for the <strong>Action</strong> 
+            property select <strong>back</strong> from the drop down list. This 
+            will cause the button to perform the navigation you defined in the 
+            page flow. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t096.gif" name="t096" class="imgborder_off" id="t20309" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp; </p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>12.</b></td>
+        <td><p>Next we'll add transaction operations to the page to allow you 
+            to commit and rollback changes. In the Data Controls Palette expand 
+            the application module level <strong>Operations</strong> node to locate 
+            the commit and rollback operations. Drag the <strong>Commit</strong> 
+            operation into the structure pane before the <strong>First Button</strong>. 
+            When prompted for a drop target choose <strong>ADF Button</strong> 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t162.gif" name="t162" class="imgborder_off" id="t20310" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            <img src="./Developing RIA Web Applications with Oracle ADF_files/t161.gif" name="t161" class="imgborder_off" id="t20310" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p>
+          </td>
+      </tr>
+      <tr valign="top">
+        <td><b>13.</b></td>
+        <td><p>Repeat the same steps for the <strong>Rollback</strong> operation.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t163.gif" name="t163" class="imgborder_off" id="t20310" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>In the Property Inspector, for the <strong>Rollback</strong> and 
+            for the <strong>Commit</strong> buttons, set the Disabled property 
+            to <strong>default</strong>.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t163bis.gif" name="t163bis" class="imgborder_off" id="t20310" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>14.</b></td>
+        <td><p>If you'll maximize the design editor at this stage by double clicking 
+            the<strong> Query.jspx</strong> tab, your page should look like this: 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t168.gif" name="t168" class="imgborder_off" id="t20310" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>15.</b></td>
+        <td><p>Switch back to editing the <strong>DeptEmpPage.jspx</strong> by 
+            clicking on its tab or opening the file from the Application Navigator.<br>
+            A quick way to navigate to this or any other file is using the global 
+            find box at the top right of JDeveloper and typing the file name there, 
+          </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t177.gif" name="t177" class="imgborder_off" id="t20310" onclick="hideImage(this)" onmouseover="showImage(this)"></span> 
+          </p>
+          <p>Then just click the file name to open it in the editor. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t087.gif" name="t087" class="imgborder_off" id="t20310" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>16.</b></td>
+        <td><p>In the page design, expand the <strong>Departments</strong> accordion. 
+            From the Component Palette, choose a <strong>Button</strong> component 
+            and drag it into the <strong>Departments</strong> accordion between 
+            the <strong>First</strong> and <strong>Previous</strong> buttons. 
+            Alternatively you can right click the First button and choose insert 
+            after-&gt;button to add the new button. 
+          </p><p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t088.gif" name="t088" class="imgborder_off" id="t20311" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>Using the property inspector change the <strong>Text</strong> of 
+            the button to be <strong>Query</strong> and for the <strong>Action</strong> 
+            property type <strong>goQuery</strong> or select it from the drop 
+            down list if available. This will cause the button to perform the 
+            navigation you defined in the page flow. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t088b.gif" name="t088b" class="imgborder_off" id="t20311" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>17.</b></td>
+        <td><p>Click the <b>Save All</b> <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> 
+            icon on the JDeveloper menu bar to save your work, and then right 
+            click the <strong>DeptEmpPage.jspx</strong> page and choose <strong>Run</strong>. 
+          </p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top">
+        <td><b>18.</b></td>
+        <td><p><font color="#000000">When the page appears in your browser click 
+            the <strong>Query</strong> button to navigate to your new page. </font></p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t169a.gif" name="t169a" class="imgborder_off" id="t20311" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p>
+          </td>
+      </tr>
+      <tr valign="top">
+        <td><b>19.</b></td>
+        <td><p><font color="#000000">In the new Query page, click the <strong>magnifying 
+            glass</strong> icon next to the <strong>JobID</strong> field to bring 
+            up a search form.</font></p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t169b.gif" name="t169b" class="imgborder_off" id="t20311" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p><font color="#000000"> </font></p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b>20.</b></td>
+        <td><p><font color="#000000">Search for Jobs whose jobTitle begins with 
+            <strong>A%</strong>. </font></p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t169.gif" name="t169" class="imgborder_off" id="t20311" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p><font color="#000000">Choose the <strong>Accountant</strong> title 
+            and click <strong>OK</strong>.</font></p>
+          <p><font color="#000000"> Now click the <strong>Search</strong> button 
+            in the Query page to return the results in the form below. </font></p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t169c.gif" name="t169c" class="imgborder_off" id="t20311" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b>21.</b></td>
+        <td><p><font color="#000000">You can continue playing with the form saving 
+            your query criteria, creating more complex queries and updating data 
+            for employees. Note how this form displays a view of the data that 
+            matches the definition in the view object you created - including 
+            information for Department name as well as a list of values for the 
+            Job id. <br>
+            You can also make changes to the data and <strong>commit</strong> 
+            and <strong>rollback</strong> your transaction as needed. </font></p>
+          <font color="#000000"> 
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t170.gif" name="t170" class="imgborder_off" id="t20311" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p><strong>Close</strong> your browser window.</p>
+          </font></td>
+      </tr>
+    </tbody></table>
+  </h4>
+
+<h4 align="right">
+  </h4><h4 align="right"> 
+    </h4><h4 align="right">&nbsp; </h4>
+  
+
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+    <h4>
+  </h4><h4>
+    </h4><h4>
+      <p><a name="ag" id="ag"></a><span class="navheader">Using ADF Faces Framework 
+        Features</span></p>
+    </h4>
+  
+
+<p><span class="bodycopy">In the next section we'll enhance our pages with additional Ajax 
+  functionality leveraging the declarative development offered by the ADF Faces 
+  components.</span></p>
+<table border="0" cellpadding="1" cellspacing="0">
+  <tbody>
+    <tr valign="top"> 
+      <td width="15"><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" height="16" width="16"></td>
+      <td colspan="2" class="bodylink"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ag1"> Using Partial Page Refresh</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" height="16" width="16"></td>
+      <td colspan="2" class="bodylink"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ag2">Using Drop Down Menus and 
+        Operation Components </a></td>
+    </tr>
+  </tbody>
+</table>
+<p><a name="ag1" id="ag1"></a><span class="boldbodycopy">Using Partial Page Refresh</span></p>
+<p class="bodylink">First we'll add an automatic update of the yearlySalary field based on changes 
+  in the Salary field. Since we don't want to refresh the whole page, we'll use 
+  the partial page refresh capability offered by ADF Faces<br>
+  To do this we'll define the Salary field to autosubmit, and the yearlySalary 
+  field to depend on the Salary field.</p>
+<h4> 
+  </h4><h4> 
+    <table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+      <tbody><tr valign="top"> 
+        <td width="25"><b> 1.</b></td>
+        <td> <p>Open the <strong>query.jspx</strong> file in the design editor 
+            and locate the <strong>Salary</strong> field and click it. In the 
+            property inspector window set the value of the <strong>Id</strong> 
+            property to <strong>sal</strong>.</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t106.gif" name="t106" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50" width="25"><b> 2.</b></td>
+        <td> <p>Still in the Property Inspector under the <strong>Behavior</strong> 
+            section set the <strong>AutoSubmit</strong> property to <strong>True</strong> 
+            .</p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t107.gif" name="t107" class="imgborder_off" id="t20302" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p><br>
+          </p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 3.</b></td>
+        <td> <p>Using the Structure Panel locate the <strong>YearlySalary</strong> 
+            field. Another option to get to this field is to double click the 
+            query.jspx tab to maximize the window and then locate the field in 
+            the design editor. <br>
+            Locate the <strong>PartialTriggers</strong> property under the <strong>Behavior</strong> 
+            section and click the arrow to its right to choose <strong>Edit</strong>. 
+          </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t109.gif" name="t109" class="imgborder_off" id="t20303" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b> 4. </b></td>
+        <td> <p>In the Edit Property dialog locate the <strong>Salary</strong> 
+            field and shuttle it to the right using the blue arrow. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t110.gif" name="t110" class="imgborder_off" id="t20304" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>Click the <strong>OK</strong> button. </p>
+          <p>&nbsp;</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td height="50"><b>5.</b></td>
+        <td><p>Click the <b>Save All</b> <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> 
+            icon on the JDeveloper menu bar to save your work, and <strong>Run</strong> 
+            your page.</p>
+          <p>&nbsp;</p>
+          </td>
+      </tr>
+      <tr valign="top">
+        <td height="50"><b>6.</b></td>
+        <td><p>When the page comes up, click the <strong>Query</strong> button 
+            to use the query section. </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t111.gif" name="t111" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>&nbsp;</p>
+          </td>
+      </tr>
+      <tr valign="top">
+        <td height="50"><b>7.</b></td>
+        <td><p>Locate employees having the first name begin with <strong>A%</strong>. 
+          </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t111bis.gif" name="t111bis" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>Note the salary and yearly salary values.</p>
+          <p>.<span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t111ter.gif" name="t111ter" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+          <p>&nbsp;</p>
+          </td>
+      </tr>
+      <tr valign="top">
+        <td height="50"><b>8.</b></td>
+        <td><p>Update the <strong>Salary</strong> field and move out of the field. 
+          </p>
+          <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t111quat.gif" name="t111quat" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+            </span></p>
+          <p>Notice the immediate change in the <strong>YearlySalary</strong> 
+            field once you leave the Salary field.</p>
+          <p>&nbsp;</p>
+          </td>
+      </tr>
+      <tr valign="top">
+        <td height="50"><b>9.</b></td>
+        <td>
+<p>Close your browser window.</p></td>
+      </tr>
+    </tbody></table>
+  </h4>
+
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ag" class="bodylink">Back to Topic</a></p>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h4>
+  </h4><h4>
+    </h4><h4><a name="ag2" id="ag2"></a><span class="boldbodycopy">Using Drop Down 
+      Menus and Operation Components</span></h4>
+  
+
+<p class="bodylink">In this section we'll add a drop down menu to a page and use a couple of ADF 
+  Faces operation components to add Javascript based operations to our page that 
+  will export table data into an Excel spreadsheet and to a printable page.</p>
+  
+<h4> 
+  <table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+    <tbody><tr valign="top"> 
+      <td width="25"><b> 1.</b></td>
+      <td> <p>Open the <strong>DeptEmpPage.jspx</strong> file in the design editor 
+          and click inside the <strong>menus</strong> place holder space in the 
+          panel collection surrounding the Employees table. Right click to bring 
+          up the context menu and choose <strong>Insert Inside Facet - menus</strong> 
+          and then <strong>Menu</strong>. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t112.gif" name="t112" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50" width="25"><b> 2.</b></td>
+      <td> <p>In the Property Inspector set the <strong>Text</strong> property 
+          to <strong>My Options</strong>.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t113.gif" name="t113" class="imgborder_off" id="t20302" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p><br>
+        </p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b> 3.</b></td>
+      <td> <p>In the Property Inspector under the <strong>Behavior</strong> section 
+          set the <strong>Detachable</strong> property to <strong>true</strong>.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t114.gif" name="t114" class="imgborder_off" id="t20303" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b> 4. </b></td>
+      <td> <p>Using the Structure Pane right click the menu component and choose 
+          <strong>Insert inside af:menu - My Options</strong> and then <strong>Menu 
+          Item</strong>. <br>
+        </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t115.gif" name="t115" class="imgborder_off" id="t20304" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>Using the property inspector set the <strong>Text</strong> property 
+          of the new menu item to <strong>Export to Excel</strong>. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t115b.gif" name="t115b" class="imgborder_off" id="t20304" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b>5.</b></td>
+      <td><p>With the new Export to Excel menu item still selected in the structure 
+          pane, expand the <strong>Operations</strong> section of the the ADF 
+          Faces components in the component Palette. <br>
+          Locate the <strong>Export Collection Action Listener</strong> component 
+          and click it - or drag it onto the <strong>Export to Excel</strong> 
+          menu option in the structure pane.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t116.gif" name="t116" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          <img src="./Developing RIA Web Applications with Oracle ADF_files/t116b.gif" name="t116b" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b>6.</b></td>
+      <td><p>In the dialog that pops up click the down arrow next to <strong>ExportedId</strong> 
+          field and choose <strong>Edit</strong>. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t117.gif" name="t117" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b>7.</b></td>
+      <td><p>In the Edit Property dialog navigate the page's structure to locate 
+          the <strong>table</strong> <strong>-t1 </strong>in the <strong>PanelCollection</strong> 
+          and click it. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t120.gif" name="t120" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>Click <strong>OK</strong>.</p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b>8.</b></td>
+      <td><p>From the <strong>Type</strong> drop down list select <strong>excelHTML</strong>. 
+        </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t124.gif" name="t124" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>Click the <strong>OK</strong> button.</p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td height="50"><b>9.</b></td>
+      <td><p>Let's add another menu option to our menu. In the structure pane 
+          right click the <strong>Export to Excel</strong> menu component and 
+          from the context menu choose <strong>Insert After af:commandMenuItem 
+          - Export to Excel</strong> and then <strong>Menu Item</strong>.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t124b.gif" name="t124b" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td width="25"><b> 10.</b></td>
+      <td> <p> Set the Text property of this new menu option to <strong>Printable 
+          Page</strong>. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t128.gif" name="t128" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td width="25"><b> 11.</b></td>
+      <td> <p>From the Operations section of the component palette click the <strong>Show 
+          Printable Page Behavior</strong> to add it to your new menu item. You 
+          can also drag and drop it onto the new menu option you created.<br>
+        </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t129.gif" name="t129" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          <img src="./Developing RIA Web Applications with Oracle ADF_files/t130.gif" name="t130" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td width="25"><b> 12.</b></td>
+      <td> <p>Click the <b>Save All</b> <img src="./Developing RIA Web Applications with Oracle ADF_files/iconSaveAll.gif" width="22" height="21"> 
+          icon on the JDeveloper menu bar to save your work, and choose <strong>Run</strong>. 
+        </p>
+        <p>&nbsp;</p>
+        </td>
+    </tr>
+    <tr valign="top">
+      <td><b>13.</b></td>
+      <td><p>When the page comes up bring up your menu and detach it. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t133.gif" name="t133" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          <img src="./Developing RIA Web Applications with Oracle ADF_files/t133a.gif" name="t133a" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top">
+      <td><b>14.</b></td>
+      <td><p>Then invoke each one of the menu options you created. For example 
+          <strong>Export to Excel</strong>. </p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t133b.gif" name="t133b" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>You may need to accept the download of the file in the browser window 
+          to be able to access the Excel file.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t133b2.gif" name="t133b2" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top">
+      <td><b>15.</b></td>
+      <td><p>Try the <strong>Printable Page</strong> option.</p>
+        <p><span class="navheader"> <img src="./Developing RIA Web Applications with Oracle ADF_files/t133c.gif" name="t133c" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+          </span></p>
+        <p>The page is ready for printing.</p>
+        <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t133d.gif" name="t133d" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+        <p>&nbsp;</p></td>
+    </tr>
+    <tr valign="top">
+      <td>&nbsp;</td>
+      <td><strong>Close</strong> the browser window.</td>
+    </tr>
+  </tbody></table>
+</h4>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ag" class="bodylink">Back to Topic</a></p>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h4>
+  </h4><h4>
+    <p><a name="ah" id="ah"></a><span class="navheader">Create Read Only Business 
+      Services, Page Fragments and Regions </span></p>
+  </h4>
+
+<p class="bodycopy">In the next two sections we'll create a reusable page fragment 
+  that will allow us to search for employees by their email. We'll then use this 
+  page fragment inside another JSF page.</p>
+<table border="0" cellpadding="1" cellspacing="0">
+  <tbody>
+    <tr valign="top"> 
+      <td width="15"><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" height="16" width="16"></td>
+      <td colspan="2" class="bodylink"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ah1"> Query Only Business Service 
+        Based on Parameters</a></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" height="16" width="16"></td>
+      <td colspan="2" class="bodylink"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#ah2"> Reusable Task Flows, Page 
+        Fragments and Regions </a></td>
+    </tr>
+  </tbody>
+</table>
+<p class="bodycopy"><a name="ah1" id="ah1"></a><span class="boldbodycopy">Query 
+  Only Business Service Based on Parameters</span></p>
+<p class="bodycopy"> First we'll create a new ADF Business Components View Object 
+  to provide us with the right query based on a parameter.</p>
+<table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+  <tbody><tr valign="top"> 
+    <td width="25"><b> 1.</b></td>
+    <td> <p> In the Application Navigator locate the <strong>demo.model package</strong> 
+        and right click on it to choose <strong>New View Object...</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t134.gif" name="t134" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50" width="25"><b> 2.</b></td>
+    <td> <p>In the Create View Object dialog set the <strong>Name</strong> property 
+        to <strong>EmpByEmail</strong> and for view type choose the <strong>Read 
+        Only Access through SQL Query</strong> radio button. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t135.gif" name="t135" class="imgborder_off" id="t20302" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click <strong>Next</strong>. </p>
+      <p><br>
+      </p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b> 3.</b></td>
+    <td> <p>In step 2 of the Create View Object dialog type the following query 
+        <br>
+        <strong><font face="Courier New, Courier, mono">select first_name,last_name 
+        from employees where email=:p_email</font></strong><br>
+        The <strong>':'</strong> before p_email means that it is a variable that 
+        will be passed to the query. <br>
+      </p>
+      <p>Click the <strong>Test</strong> button to verify your query.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t136.gif" name="t136" class="imgborder_off" id="t20303" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click <strong>OK</strong> then click <strong>Next</strong>.</p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b> 4. </b></td>
+    <td> <p>In step 3 of the Create View Object dialog, Click the <strong>New</strong> 
+        button to define a new bind variable. Set the <strong>Name</strong> property 
+        to be <strong>p_email</strong>.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t137.gif" name="t137" class="imgborder_off" id="t20304" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click the <strong>Control Hints</strong> tab and set the <strong>Label 
+        Text</strong> to <strong>Email</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t137b.gif" name="t137b" class="imgborder_off" id="t20304" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>5.</b></td>
+    <td><p>Click <strong>Next</strong> a few more times to accept all the defaults, 
+        until you get to <strong>step 8</strong> of the dialog. <br>
+        Here check the <strong>Application Module</strong> check box to include 
+        your new view in your data model. <br>
+        Click the <strong>Finish</strong> button. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t138.gif" name="t138" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>6.</b></td>
+    <td><p>You can now run the Application Module Tester, when you'll double click 
+        the new <strong>EmpsByEmail</strong>1 view you'll be prompted to insert 
+        a value for the parameter. You can insert <strong>SKING</strong> press 
+        <strong>OK</strong> and get the results for this email address. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t139.gif" name="t139" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>To try another value click the <strong>Edit</strong> button <img src="./Developing RIA Web Applications with Oracle ADF_files/iconEdit.gif" width="21" height="20">. 
+      </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t139b.gif" name="t139b" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p><strong>Exit</strong> from the Tester. </p></td>
+  </tr>
+</tbody></table>
+  
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic</a></p>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h4><a name="ah2" id="ah2"></a><span class="boldbodycopy">Reusable Task Flows, 
+  Page Fragments and Regions</span></h4>
+<p class="bodycopy">In this section we'll create a reusable page fragment that 
+  will allow us to search for employees by their email. We'll then use this page 
+  fragment inside another JSF page. The same page fragment can be used in multiple 
+  other pages in our application. </p>
+<table width="650" border="0" cellpadding="1" cellspacing="0" class="bodycopy">
+  <tbody><tr valign="top"> 
+    <td width="25"><b> 1.</b></td>
+    <td> <p>First we'll create a new task flow specific for this page.<br>
+        In the Application Navigator locate the <strong>ViewController</strong> 
+        project and right click on it to choose <strong>New...</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t140.gif" name="t140" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>Under the <strong>Web Tier -&gt; JSF</strong> category choose <strong>ADF 
+        Task Flow</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t141.gif" name="t141" class="imgborder_off" id="t20301" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click <strong>OK</strong>.</p>
+      <p>&nbsp;</p>
+      </td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50" width="25"><b> 2.</b></td>
+    <td> <p>In the Create Task Flow dialog set the <strong>File Name</strong> 
+        property to <strong>search-email-flow.xml</strong>.<br>
+        Verify that the <strong>Create As Bounded Task Flow</strong> and <strong>Create 
+        with Page Fragments</strong> options are both checked. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t142.gif" name="t142" class="imgborder_off" id="t20302" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Click <strong>OK</strong>.</p>
+      <p><br>
+      </p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b> 3.</b></td>
+    <td> <p>In the diagram editor for the new flow you created, drag a <strong>View</strong> 
+        component from the component palette onto the empty and rename it to <strong>searchEmail</strong>. 
+        While we'll only be using a single page in this flow, you can have bounded 
+        task flows with multiple pages and still include them in other JSF pages.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t143.gif" name="t143" class="imgborder_off" id="t20303" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b> 4. </b></td>
+    <td> <p>Double click the new <strong>searchEmail</strong> view components 
+        to create the page for it.<br>
+        Accept all the defaults in the dialog that appears and make sure the file 
+        name is <strong>searchEmail.jsff</strong>. This will create the page as 
+        a page fragment that can be included in other JSF pages. Click <strong>OK</strong>. 
+      </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t144.gif" name="t144" class="imgborder_off" id="t20304" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>5.</b></td>
+    <td><p>An empty design view of the page will appear. Expand the <strong>Data 
+        Controls</strong> accordion and click the Refresh button to to have the 
+        new <strong>EmpByEmail</strong> data control appear in the list. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t145a.gif" name="t145a" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>Locate the new view you created. - <strong>EmpByEmail1</strong> expand 
+        the view and the <strong>Operation</strong> node underneath it. <br>
+      </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t145.gif" name="t145" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>We are going to use the <strong>ExecuteWithParams</strong> operation 
+        to execute the query for this view passing to it the needed parameter. 
+      </p>
+      <p>&nbsp; </p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>6.</b></td>
+    <td><p>Drag the <strong>ExecuteWithParams</strong> operation to your new page, 
+        when prompted to choose to choose a drop option choose <strong>Parameters-&gt;ADF 
+        Parameter Form...</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t146.gif" name="t146" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>Change the display label for the p_email value from default to <strong>Email</strong>.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t147.gif" name="t147" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>Click <strong>OK</strong>.</p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>7.</b></td>
+    <td><p>In the design editor for the page click the <strong>ExecuteWithParams</strong> 
+        button and use the property inspector to change the <strong>Text</strong> 
+        property to <strong>Find Details</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t148.gif" name="t148" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>8.</b></td>
+    <td><p>From the Data Controls accordion, drag the <strong>EmpByEmail1</strong> 
+        view onto the page beneath the button. When prompted to choose a drop 
+        option choose <strong>From-&gt;ADF Read Only Form...</strong>. <br>
+      </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t149.gif" name="t149" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>Accept the defaults presented in the Edit Form Fields dialog and click 
+        <strong>OK</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t150.gif" name="t150" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>The page should look like this:</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t150b.gif" name="t150b" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>9.</b></td>
+    <td><p>Now that our new bounded task flow includes a page fragment, we'll 
+        include the complete bounded task flow inside another JSF page.<br>
+        In the Application Navigator locate the <strong>DeptEmpPage.jspx</strong> 
+        file and open it in the visual design editor. From the Component Palette's 
+        Layout section drag and drop a <strong>Separator</strong> component into 
+        the left accordion in the DeptEmpPage.jspx page beneath the <strong>Departments</strong> 
+        form. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t154.gif" name="t154" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>10.</b></td>
+    <td><p>Now we'll add the new flow we created as a region to the existing page.<br>
+        From the Application Navigator drag and drop the <strong>search-email-flow.xml</strong> 
+        file into the left accordion in the DeptEmpPage.jspx page beneath the 
+        new <strong>separator</strong>. When prompted for a drop target choose 
+        to create a <strong>Region</strong>. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t155.gif" name="t155" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>Your page should look like the following:</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t155b.gif" name="t155b" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"> 
+        </span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="50"><b>11.</b></td>
+    <td><p>Save your work by pressing the <strong>Save All</strong> button and 
+        then <strong>Run</strong> the updated <strong>DeptEmpPage.jspx</strong> 
+        page.<br>
+        In the page that comes up in your browser try the new functionality by 
+        entering an email value in the <strong>Email</strong> field and pressing 
+        the <strong>Find Details</strong> button. </p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t156b.gif" name="t156b" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p>
+      <p>The employee details are returned.</p>
+      <p><span class="navheader"><img src="./Developing RIA Web Applications with Oracle ADF_files/t156.gif" name="t156" class="imgborder_off" id="t20305" onclick="hideImage(this)" onmouseover="showImage(this)"></span></p></td>
+  </tr>
+</tbody></table>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic</a></p>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<p class="bodycopy">Congratulations you have just finished a complete ADF application. 
+  You've used ADF Business Components to create both simple and complex business 
+  services that map to the database. You've used ADF Faces components to create 
+  a rich user interface with built-in Ajax capabilities. And you used the ADF 
+  Task Flows to create page flows and reusable page regions. Notice how little 
+  code you had to write while working with JDeveloper and ADF. This is only the 
+  first step in your road to mastering Oracle ADF, you can get much more information 
+  <a href="http://www.oracle.com/technetwork/developer-tools/jdev/learnmore/index.html">here</a> 
+</p>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h4> 
+  <p class="navheader"><a name="s"></a>Summary</p>
+</h4>
+<p class="bodycopy">In this tutorial, you've seen how to create ADF Rich Client 
+  JSF Pages and use some advanced features like: </p>
+<table border="0" cellspacing="0" cellpadding="1" width="464">
+  <tbody>
+    <tr valign="top"> 
+      <td width="22"><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td width="438"><p class="bodycopy">Create a New Fusion Application and 
+          Business Component</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td> <p class="bodycopy">Refine your Business Components</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td> <p class="bodycopy">Create JSF Web Pages</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td> <p class="bodycopy">Bind Data Controls to your JSF Page </p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td> <p class="bodycopy">Add More Complex Business Services</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td> <p class="bodycopy">Create a Page Flow</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td> <p class="bodycopy">Use ADF Faces Framework Features</p></td>
+    </tr>
+    <tr valign="top"> 
+      <td><img src="./Developing RIA Web Applications with Oracle ADF_files/bullet.gif" width="16" height="16"></td>
+      <td> <p class="bodycopy">Create Read Only Business Services, Page Fragments 
+          and Regions</p></td>
+    </tr>
+  </tbody>
+</table>
+<p align="right"><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/jdev/obe11jdev/ps1/ria_application/developriaapplication_long.htm#t" class="bodylink">Back to Topic List</a></p>
+<h3 class="bodycopy"><img src="./Developing RIA Web Applications with Oracle ADF_files/view_image.gif" width="24" height="24" align="absmiddle" onmouseover="hideAllImages()"> 
+  <b><font color="#ff0000">Place the cursor over this icon to hide all screenshots.</font></b> 
+</h3>
+<h4 align="left"> 
+  <p align="left"> </p>
+</h4>
+<div align="right"></div>
+<h4> 
+  <p></p>
+</h4>
+
+<script language="JavaScript" type="text/JavaScript">
+<!--
+preLoadImages();
+//-->
+</script>
+
+</body></html>
